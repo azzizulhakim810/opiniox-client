@@ -69,7 +69,19 @@ const ViewSinglePost = () => {
     });
   };
 
-
+  // Downvote
+  const handleDownVote = (id) => {
+    console.log(id);
+    axiosSecure.patch(`/updateDownVote/${id}`, { downVote: downVote })
+      .then((res) => {
+        console.log(typeof(parseInt(res.data)));
+        // setDownVoteCount(parseInt(res.data));
+        if (res.data.modifiedCount > 0) {
+          setActualVote((prevVote) => prevVote - 1);
+          Swal.fire("Great!", "Down Vote Submitted", "success");
+        }
+      }); 
+  };
 
   useEffect(() => {
     setActualVote(upVote - downVote);
