@@ -6,7 +6,7 @@ import { ImPriceTags } from "react-icons/im";
 import { IoSearchOutline } from "react-icons/io5";
 import AllPosts from "../AllPosts/AllPosts";
 import SectionTitle from "../../components/SectionTitle/SectionTitle";
-import { Helmet } from "react-helmet-async";
+import { Helmet, HelmetProvider } from "react-helmet-async";
 import {  useLoaderData } from "react-router-dom";
 // import { useEffect, useState } from "react";
 // import usePosts from "../../hooks/usePosts";
@@ -24,10 +24,13 @@ const Home = () => {
 
 
   return (
+    <HelmetProvider>
     <div>
+      
       <Helmet>
         <title>OpinioX | HOME</title>
       </Helmet>
+     
       {/* Hero Section  */}
       <div
         className="hero h-[100vh] -mt-24"
@@ -208,6 +211,7 @@ const Home = () => {
       
       </div>
     </div>
+    </HelmetProvider>
   );
 };
 

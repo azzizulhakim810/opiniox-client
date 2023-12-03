@@ -36,12 +36,12 @@ export const router = createBrowserRouter([
       {
         path:'/allPosts',
         element:<AllPosts></AllPosts>,
-        // loader: () => fetch('http://localhost:5000/postsCount')5
+        loader: () => fetch('http://localhost:5000/postsCount')
       },
       {
         path:'/singlePost/:id',
         element: <ViewSinglePost></ViewSinglePost>,
-        loader: ({params}) => fetch(`http://localhost:5000/posts/singlePost/${params.id}`)
+        loader: ({params}) => fetch(`http://localhost:5000/posts/single/${params.id}`)
       },
        
  /*     {

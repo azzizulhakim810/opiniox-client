@@ -10,7 +10,7 @@ const UpdateAssignment = () => {
   const {user} = useContext(AuthContext);
   const currentUserEmail = user.email;
   const navigate = useNavigate();
-  const [startDate, setStartDate] = useState(new Date());
+  // const [startDate, setStartDate] = useState(new Date());
   const selectToUpdate = useLoaderData();
   // console.log(selectToUpdate);
 

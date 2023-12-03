@@ -3,42 +3,28 @@ import { FaArrowLeftLong, FaArrowRightLong } from "react-icons/fa6";
 import { Link } from "react-router-dom";
 import ViewAllPosts from "../ViewAllPosts/ViewAllPosts";
 import SectionTitle from "../../components/SectionTitle/SectionTitle";
-// import usePosts from "../../hooks/usePosts";
 import { useContext, useEffect, useState } from "react";
-// import axios from "axios";
 import { AuthContext } from "../../providers/AuthProvider";
-// import usePosts from "../../hooks/usePosts";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 
 const AllPosts = ({count}) => {
  const {loading} = useContext(AuthContext);
-  // const {count} = useLoaderData(); 
-  // console.log(allPostsLoader, count);
-// const [posts, setPosts] = useState([]);
 const [allPosts, setAllPosts] = useState([]);
 const [currentPage, setCurrentPage] = useState(0);
 const [itemsPerPage, setItemsPerPage] = useState(5);
-// const [posts] = usePosts();
 const [newest, setNewest] = useState(true);
 
-// console.log(popular);
 const axiosSecure = useAxiosSecure();
 
   useEffect(() => {
     const fetchData = async () => {
       const res = await axiosSecure.get(`/posts?page=${currentPage}&size=${itemsPerPage}&sortSystem=${newest ? 'newest' : 'popular'}`)
-      
-      /* fetch(`http://localhost:5000/posts?page=${currentPage}&size=${itemsPerPage}`);
-      const data = await response.json();
-      setAllPosts(data); */
-      // setPosts(data);
-      // console.log(res.data);
       setAllPosts(res.data);
     };
 
-    fetchData();
-  }, [currentPage, itemsPerPage, axiosSecure, newest]);
+  fetchData();
+  }, [currentPage, itemsPerPage, newest, axiosSecure]);
   // console.log(selectedLevel,assignments);
 
 
@@ -48,12 +34,11 @@ const axiosSecure = useAxiosSecure();
     setCurrentPage(0);
   }
 
-  // const itemsPerPage = 3;
+
   const numberOfPages = Math.ceil(count/itemsPerPage);
-  // console.log(numberOfPages);
+
 
   const pages = [...Array(numberOfPages).keys()] ;
-  // console.log(pages);
 
   
 
