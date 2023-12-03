@@ -14,21 +14,31 @@ import {
 import { useLoaderData } from "react-router-dom";
 import Tags from "../../components/Tags/Tags";
 import { HelmetProvider } from "react-helmet-async";
-import axios from "axios";
+
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import Swal from "sweetalert2";
 import { useState } from "react";
-import { AuthContext } from "../../providers/AuthProvider";
 import { useContext } from "react";
 import { useEffect } from "react";
 
-// import axios from "axios";
+import {
+  FacebookIcon,
+  FacebookShareButton,
+  WhatsappIcon,
+  WhatsappShareButton,
+  EmailShareButton,
+  EmailIcon,
+ 
+} from "react-share";
+import axios from "axios";
+import { AuthContext } from "../../providers/AuthProvider";
+
 
 const ViewSinglePost = () => {
   
   const {user} = useContext(AuthContext);
   // console.log(user);
-  // const userEmail = user.email;
+  const userEmail = user?.email;
   // const userName = user.displayName;
   // const userPhoto = user.photoURL;
   // const navigate = useNavigate();
@@ -87,7 +97,59 @@ const ViewSinglePost = () => {
     setActualVote(upVote - downVote);
   }, [upVote, downVote]);
  
+  // Share Link 
+  const shareUrl = `http://localhost:5000/posts/single/${_id}`;
 
+  const handleComment = async() => {
+
+    const { value: commentPost } = await Swal.fire({
+      title: "Comment",
+      html: `
+        
+        
+        <h1 class="-mb-3"><strong>Write Here</strong></h1>
+        <input type="textarea" id="swal-input2" class="swal2-input">
+
+        
+      `,
+      focusConfirm: false,
+      preConfirm: () => {
+        const commentValue = document.getElementById("swal-input2").value;
+        return commentValue;
+      }
+    });
+    // console.log(commentPost);
+
+    const commentInfo = {
+      commentPost,
+      userEmail,
+      title
+    }
+    console.log(commentInfo);
+    if (!commentInfo?.commentPost.length <= 0) {
+      // Swal.fire(JSON.stringify(formValues));
+      // console.log(markTheAssignment.pdfLink.length && markTheAssignment.quickNote.length );
+     axios.post('http://localhost:5000/submitComment', commentInfo)
+     .then(res => {
+      console.log(res.data);
+      console.log(res.data.insertedId);
+      if(res.data.insertedId) {
+        Swal.fire(
+          'Great!',
+          "Comment Submitted",
+          'success'
+        );
+        //  navigate('/myAssignment');
+      }
+     })
+    }
+    /* return Swal.fire({
+      icon: "error",
+      title: "Oops...",
+      text: "Leave something",
+    }); */
+    
+  }
   return (
     <HelmetProvider>
       <div>
@@ -157,13 +219,35 @@ const ViewSinglePost = () => {
                         <p>{time}</p>
                       </div>
                     </div>
-                    <div className="flex gap-4">
-                      <button className="bg-cyan-500 hover:bg-cyan-700 font-semibold text-white px-4 py-2 rounded-full transition-all duration-500">
+                    <div className="flex gap-4 items-center justify-start">
+                      <button onClick={handleComment} className="bg-cyan-500 hover:bg-cyan-700 font-semibold text-white px-4 py-2 rounded-full transition-all duration-500">
                         Comment
                       </button>
-                      <button className="bg-cyan-500 hover:bg-cyan-700 font-semibold text-white px-8 py-2 rounded-full transition-all duration-500">
+                     {/*  <button className="bg-cyan-500 hover:bg-cyan-700 font-semibold text-white px-8 py-2 rounded-full transition-all duration-500">
+                      
                         Share
-                      </button>
+                      </button> */}
+                     <div className="pt-2">
+                     <FacebookShareButton  url={shareUrl}
+                     quote= {'Share the post to your friend'}
+                     >
+                     <FacebookIcon className="text-cyan-500 hover:text-cyan-700 font-semibold transition-all duration-500" size={36} round={true} />
+</FacebookShareButton>
+                     </div>
+                     <div className="pt-2">
+                     <WhatsappShareButton  url={shareUrl}
+                     quote= {'Share the post to your friend'}
+                     >
+                     <WhatsappIcon className="text-cyan-500 hover:text-cyan-700 font-semibold transition-all duration-500" size={36} round={true} />
+</WhatsappShareButton>
+                     </div>
+                     <div className="pt-2">
+                     <EmailShareButton  url={shareUrl}
+                     quote= {'Share the post to your friend'}
+                     >
+                     <EmailIcon className="text-cyan-500 hover:text-cyan-700 font-semibold transition-all duration-500" size={36} round={true} />
+</EmailShareButton>
+                     </div>
                     </div>
                   </div>
                 </div>

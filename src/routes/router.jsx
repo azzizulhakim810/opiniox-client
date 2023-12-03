@@ -17,6 +17,10 @@ import Register from "../pages/Register/Register";
 // import Footer from "../components/Footer/Footer";
 import ViewSinglePost from "../pages/ViewSinglePost/ViewSinglePost";
 import AllPosts from "../pages/AllPosts/AllPosts";
+import Dashboard from "../layout/dashboard";
+import MyPosts from "../pages/Dashboard/MyPosts/MyPosts";
+import AddPost from "../pages/Dashboard/AddPost/AddPost";
+import MyProfile from "../pages/Dashboard/MyProfile/MyProfile";
 // import BrandBasedProducts from "../pages/BrandBasedProducts/BrandBasedProducts";
 // import SingleProductDetails from "../pages/SingleProductDetails/SingleProductDetails";
 // import UpdateProduct from "../components/UpdateProduct/UpdateProduct";
@@ -78,6 +82,25 @@ export const router = createBrowserRouter([
         path:'/signup',
         element:<Register></Register>
       },
+    ]
+  },
+  {
+    path: 'dashboard',
+    element: <Dashboard></Dashboard>,
+    children: [
+      {
+        path: '/dashboard/myprofile',
+        element:<MyProfile></MyProfile>
+      },
+      {
+        path: '/dashboard/myposts',
+        element: <MyPosts></MyPosts>
+      },
+      {
+        path: '/dashboard/addpost',
+        element: <AddPost></AddPost>
+      }
+      
     ]
   }
 ])

@@ -80,6 +80,20 @@ const Navbar = () => {
       >
         Membership
       </NavLink>
+     { user &&
+       <NavLink
+       to="dashboard"
+       className={({ isActive, isPending }) =>
+         isPending
+           ? "pending"
+           : isActive
+           ? "underline decoration-sky-500 underline-offset-8  capitalize py-1 px-2 mx-2 "
+           : "  py-1 px-2 mx-2"
+       }
+     >
+       Dashboard
+     </NavLink>
+     }
 
       {/*       {(
         <NavLink

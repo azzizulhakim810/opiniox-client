@@ -1,0 +1,86 @@
+import { Link, NavLink, Outlet } from "react-router-dom";
+import { CgProfile } from "react-icons/cg";
+import { BsFillFileEarmarkPostFill } from "react-icons/bs";
+import { MdPostAdd } from "react-icons/md";
+
+const Dashboard = () => {
+  return (
+    <div className="flex h-screen bg-gray-100">
+      {/* Sidebar */}
+      <div className="w-64 bg-cyan-600 p-8">
+        {/* Sidebar content */}
+        <Link
+          to="/"
+          className=" flex align-middle justify-between items-center"
+        >
+          <img
+            id="image"
+            src="https://i.ibb.co/HX9fnGp/Logo-white.png"
+            className="md:w-52 w-36 h-8 md:h-14 -ml-2"
+            alt=""
+          />
+        </Link>
+        <ul className="flex flex-col gap-2 text-white font-semibold py-4">
+          <NavLink
+            className={({ isActive, isPending }) =>
+              isPending
+                ? "pending"
+                : isActive
+                ? " capitalize  bg-white text-cyan-600 px-6 py-2 rounded-lg transition-all duration-500"
+                : "px-2 py-2"
+            }
+            to="/dashboard/myprofile"
+          >
+            <li className="flex items-center gap-2 text-xl justify-start"><CgProfile />My Profile</li>
+          </NavLink>
+          <NavLink
+            className={({ isActive, isPending }) =>
+              isPending
+                ? "pending"
+                : isActive
+                ? " capitalize  bg-white text-cyan-600 px-6 py-2 rounded-lg transition-all duration-500"
+                : " px-2 py-2"
+            }
+            to="/dashboard/addpost"
+          >
+            <li className="flex items-center gap-2 text-xl justify-start"><MdPostAdd />
+Add Post</li>
+          </NavLink>
+          <NavLink
+            className={({ isActive, isPending }) =>
+              isPending
+                ? "pending"
+                : isActive
+                ? " capitalize  bg-white text-cyan-600 px-6 py-2 rounded-xl transition-all duration-500"
+                : " px-2 py-2"
+            }
+            to="/dashboard/myposts"
+          >
+            <li className="flex items-center gap-2 text-xl justify-start"><BsFillFileEarmarkPostFill />
+My Posts</li>
+          </NavLink>
+        </ul>
+      </div>
+
+      {/* Main Content */}
+      <div className="flex-1 flex flex-col overflow-hidden">
+        {/* Navbar */}
+        <header className="w-full bg-white shadow-lg">
+          {/* Navbar content */}
+          <nav className="container mx-auto px-4">
+            <div className="flex justify-between items-center py-6">
+              <h1 className="text-xl font-semibold">Dashboard</h1>
+            </div>
+          </nav>
+        </header>
+
+        {/* Page Content */}
+        <main className="flex-1 overflow-x-hidden overflow-y-auto bg-gray-200">
+          <Outlet></Outlet>
+        </main>
+      </div>
+    </div>
+  );
+};
+
+export default Dashboard;
