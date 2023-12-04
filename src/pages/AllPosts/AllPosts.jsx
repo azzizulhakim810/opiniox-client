@@ -8,7 +8,7 @@ import { AuthContext } from "../../providers/AuthProvider";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 
-const AllPosts = ({count}) => {
+const AllPosts = ({count, searchText}) => {
  const {loading} = useContext(AuthContext);
 const [allPosts, setAllPosts] = useState([]);
 const [currentPage, setCurrentPage] = useState(0);
@@ -19,12 +19,12 @@ const axiosSecure = useAxiosSecure();
 
   useEffect(() => {
     const fetchData = async () => {
-      const res = await axiosSecure.get(`/posts?page=${currentPage}&size=${itemsPerPage}&sortSystem=${newest ? 'newest' : 'popular'}`)
+      const res = await axiosSecure.get(`/posts?page=${currentPage}&size=${itemsPerPage}&sortSystem=${newest ? 'newest' : 'popular'}&searchText=${searchText}`)
       setAllPosts(res.data);
     };
 
   fetchData();
-  }, [currentPage, itemsPerPage, newest, axiosSecure]);
+  }, [currentPage, itemsPerPage, newest, axiosSecure, searchText]);
   // console.log(selectedLevel,assignments);
 
 

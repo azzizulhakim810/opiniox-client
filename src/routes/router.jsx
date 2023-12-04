@@ -12,6 +12,7 @@ import MyPosts from "../pages/Dashboard/MyPosts/MyPosts";
 import AddPost from "../pages/Dashboard/AddPost/AddPost";
 import MyProfile from "../pages/Dashboard/MyProfile/MyProfile";
 import CommentPage from "../pages/Dashboard/CommentPage/CommentPage";
+import PrivateRoute from "./PrivateRoute/PrivateRoute";
 
 
 
@@ -53,20 +54,20 @@ export const router = createBrowserRouter([
     children: [
       {
         path: '/dashboard/myprofile',
-        element:<MyProfile></MyProfile>,
+        element:<PrivateRoute><MyProfile></MyProfile></PrivateRoute>,
         
       },
       {
         path: '/dashboard/myposts',
-        element: <MyPosts></MyPosts>
+        element: <PrivateRoute><MyPosts></MyPosts></PrivateRoute>
       },
       {
         path: '/dashboard/addpost',
-        element: <AddPost></AddPost>
+        element: <PrivateRoute><AddPost></AddPost></PrivateRoute>
       },
       {
         path: '/dashboard/comment/:id',
-        element: <CommentPage></CommentPage>,
+        element: <PrivateRoute><CommentPage></CommentPage></PrivateRoute> ,
         loader: ({params}) => fetch(`http://localhost:5000/allComments/${params.id}`)
       }
       

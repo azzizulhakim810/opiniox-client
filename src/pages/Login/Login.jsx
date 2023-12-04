@@ -3,7 +3,7 @@ import { FcGoogle } from "react-icons/fc";
 import { useContext } from "react";
 import { AuthContext } from "../../providers/AuthProvider";
 import Swal from "sweetalert2";
-
+import { useForm } from "react-hook-form";
 
 const Login = () => {
   const {googleLogin, signin} = useContext(AuthContext);

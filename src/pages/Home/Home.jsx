@@ -8,17 +8,38 @@ import AllPosts from "../AllPosts/AllPosts";
 import SectionTitle from "../../components/SectionTitle/SectionTitle";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 import {  useLoaderData } from "react-router-dom";
-// import { useEffect, useState } from "react";
-// import usePosts from "../../hooks/usePosts";
-// import ViewAllPosts from "../ViewAllPosts/ViewAllPosts";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
+import { useState } from "react";
+
 
 const Home = () => {
   const { count } = useLoaderData();
+  const [searchText, setSearchText] = useState();
   // console.log(count);
   // const [allPosts, loading] = usePosts();
+  const axiosSecure = useAxiosSecure();
 
   const handleSearch = (e) => {
     e.preventDefault();
+    const form = e.target;
+    setSearchText(form.search.value);
+/* 
+    axiosSecure.post('/posts?=')
+    .then(res => {
+      console.log(res.data);
+      if(res.data.insertedId) {
+        Swal.fire(
+          'Great!',
+          "Post Submitted Successfully",
+          'success'
+        );
+         form.reset();
+         navigate('/dashboard/myPosts')
+      }
+    }
+      
+      ) */
+    
   };
 
 
@@ -77,14 +98,15 @@ const Home = () => {
                 >
                   <div className="relative flex items-center ">
                     <input
-                      type="email"
+                      type="text"
+                      name="search"
                       className="peer h-10 md:h-14 w-full rounded-full bg-white pl-32 text-sm md:text-lg font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 focus:border-2 "
                       placeholder="Search by tags"
                       required
                     />
                     <button
                       className="!absolute flex items-center gap-1 h-10 md:h-14 top-0 z-10 select-none rounded-bl-full rounded-tl-full bg-cyan-500 py-4 px-3 md:px-5 text-center align-middle font-sans text-xs font-bold uppercase text-white shadow-md shadow-cyan-500/20 transition-all hover:shadow-lg hover:shadow-cyan-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none peer-placeholder-shown:pointer-events-none peer-placeholder-shown:bg-blue-gray-500 peer-placeholder-shown:opacity-50 peer-placeholder-shown:shadow-none"
-                      type="button"
+                      type="submit"
                       data-ripple-light="true"
                     >
                       <IoSearchOutline className="text-xl" />
@@ -96,35 +118,7 @@ const Home = () => {
             </div>
           </div>
 
-          {/* Our Feature Section  */}
-          {/* <div>
-        <div
-          className="hero h-[200px] md:h-[250px] bg-purple-600 mt-5"
-          style={{
-            backgroundImage: "url(https://i.ibb.co/0mMnGqq/newsletter.png)",
-          }}
-        >
-          <div className="hero-overlay bg-opacity-10 "></div>
-          <div className=" text-neutral-content w-10/12">
-            <div className="grid md:grid-cols-2 grid-cols-1 justify-between pb-5">
-              <div className="flex lg:text-4xl md:text-2xl text-2xl justify-center items-center pb-4 md:pb-0 text-white gap-3">
-                <BsEnvelopeOpenHeart />
-                <h1 className="font-semibold">Subscribe to Newsletter</h1>
-              </div>
-
-              <div className="relative h-10 w-10/12 mx-auto">
-                <div className="absolute top-2/4 right-3 grid h-10 w-10 -translate-y-1/4 place-items-center text-4xl text-blue-gray-500 text-purple-600">
-                  <IoIosSend />
-                </div>
-                <input
-                  className="peer h-14 w-full rounded-[7px] bg-white border px-3 py-6 !pr-9 font-sans text-base font-normal text-blue-gray-700 outline outline-0 text-purple-600"
-                  placeholder="Enter your email address "
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-      </div> */}
+         
         </div>
       </div>
 
@@ -204,6 +198,7 @@ const Home = () => {
         {/* <ViewAllPosts></ViewAllPosts> */}
          
         <AllPosts
+        searchText={searchText}
         count={count}
         ></AllPosts>
         

@@ -2,12 +2,14 @@ import PropTypes from 'prop-types';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import Select from "react-select";
+import useAxiosSecure from '../../hooks/useAxiosSecure';
 
 const ViewAllComments = ({singleComment}) => {
   const [selectedFeedback, setSelectedFeedback] = useState(null);
   const {commentPost, userEmail} = singleComment || {};
   const [reportButtonDisabled, setReportButtonDisabled] = useState(true);
 
+const axiosSecure = useAxiosSecure();
   const tagsOptions = [
     { value: "Good", label: "Good" },
     { value: "Bad", label: "Bad" },
@@ -20,9 +22,9 @@ const ViewAllComments = ({singleComment}) => {
   };
 
   const handleReport = () => {
-
-    console.log("Report button clicked");
     setReportButtonDisabled(true); 
+
+    // axiosSecure.post('/add')
   };
 
 
