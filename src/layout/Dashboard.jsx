@@ -2,6 +2,9 @@ import { Link, NavLink, Outlet } from "react-router-dom";
 import { CgProfile } from "react-icons/cg";
 import { BsFillFileEarmarkPostFill } from "react-icons/bs";
 import { MdPostAdd } from "react-icons/md";
+import { FaUserEdit } from "react-icons/fa";
+import { FaUsers } from "react-icons/fa6";
+import { IoHomeOutline } from "react-icons/io5";
 
 const Dashboard = () => {
   return (
@@ -31,7 +34,7 @@ const Dashboard = () => {
             }
             to="/dashboard/myprofile"
           >
-            <li className="flex items-center gap-2 text-xl justify-start"><CgProfile />My Profile</li>
+            <li className="flex items-center gap-2 text-lg justify-start"><CgProfile />My Profile</li>
           </NavLink>
           <NavLink
             className={({ isActive, isPending }) =>
@@ -43,7 +46,7 @@ const Dashboard = () => {
             }
             to="/dashboard/addpost"
           >
-            <li className="flex items-center gap-2 text-xl justify-start"><MdPostAdd />
+            <li className="flex items-center gap-2 text-lg justify-start"><MdPostAdd />
 Add Post</li>
           </NavLink>
           <NavLink
@@ -56,9 +59,41 @@ Add Post</li>
             }
             to="/dashboard/myposts"
           >
-            <li className="flex items-center gap-2 text-xl justify-start"><BsFillFileEarmarkPostFill />
+            <li className="flex items-center gap-2 text-lg justify-start"><FaUserEdit />
 My Posts</li>
           </NavLink>
+
+          <div className="h-[2px] w-full bg-white my-6"></div> 
+
+          <NavLink
+            className={({ isActive, isPending }) =>
+              isPending
+                ? "pending"
+                : isActive
+                ? " capitalize  bg-white text-cyan-600 px-6 py-2 rounded-xl transition-all duration-500"
+                : " px-2 py-2"
+            }
+            to="/"
+          >
+            <li className="flex items-center gap-2 text-lg justify-start"><IoHomeOutline />
+
+Home</li>
+          </NavLink>
+
+          <NavLink
+            className={({ isActive, isPending }) =>
+              isPending
+                ? "pending"
+                : isActive
+                ? " capitalize  bg-white text-cyan-600 px-6 py-2 rounded-xl transition-all duration-500"
+                : " px-2 py-2"
+            }
+            to="/membership"
+          >
+            <li className="flex items-center gap-2 text-lg justify-start"><FaUsers /> 
+Membership</li>
+          </NavLink>
+          
         </ul>
       </div>
 

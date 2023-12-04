@@ -77,6 +77,8 @@ const Register = () => {
         console.log(data)
       }) */
 
+      
+
       // Update Profile 
       manageProfile(name, photoURL)
       .then()
