@@ -4,14 +4,6 @@ import { AuthContext } from '../../../providers/AuthProvider';
 import useAxiosSecure from '../../../hooks/useAxiosSecure';
 import { RiVerifiedBadgeFill } from "react-icons/ri";
 
-// Dummy data for demonstration purposes
-const userData = {
-  name: 'John Doe',
-  email: 'john.doe@example.com',
-  image: 'https://example.com/user-image.jpg',
-  bronzeBadge: true, // Set to true if user has the Bronze badge
-  goldBadge: false, // Set to true if user has the Gold badge
-};
 
 const MyProfile = () => {
   const {user, loading} = useContext(AuthContext);

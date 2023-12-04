@@ -10,7 +10,7 @@ const Dashboard = () => {
   return (
     <div className="flex h-screen bg-gray-100">
       {/* Sidebar */}
-      <div className="w-64 bg-cyan-600 p-8">
+      <div className="w-[150px] md:w-64 bg-cyan-600 md:p-8 p-2 pt-6">
         {/* Sidebar content */}
         <Link
           to="/"
@@ -34,7 +34,7 @@ const Dashboard = () => {
             }
             to="/dashboard/myprofile"
           >
-            <li className="flex items-center gap-2 text-lg justify-start"><CgProfile />My Profile</li>
+            <li className="flex items-center gap-2 md:text-lg text-sm justify-start"><CgProfile />My Profile</li>
           </NavLink>
           <NavLink
             className={({ isActive, isPending }) =>
@@ -46,7 +46,7 @@ const Dashboard = () => {
             }
             to="/dashboard/addpost"
           >
-            <li className="flex items-center gap-2 text-lg justify-start"><MdPostAdd />
+            <li className="flex items-center gap-2 md:text-lg text-sm justify-start"><MdPostAdd />
 Add Post</li>
           </NavLink>
           <NavLink
@@ -59,7 +59,7 @@ Add Post</li>
             }
             to="/dashboard/myposts"
           >
-            <li className="flex items-center gap-2 text-lg justify-start"><FaUserEdit />
+            <li className="flex items-center gap-2 md:text-lg text-sm justify-start"><FaUserEdit />
 My Posts</li>
           </NavLink>
 
@@ -75,7 +75,7 @@ My Posts</li>
             }
             to="/"
           >
-            <li className="flex items-center gap-2 text-lg justify-start"><IoHomeOutline />
+            <li className="flex items-center gap-2 md:text-lg text-sm justify-start"><IoHomeOutline />
 
 Home</li>
           </NavLink>
@@ -90,7 +90,7 @@ Home</li>
             }
             to="/membership"
           >
-            <li className="flex items-center gap-2 text-lg justify-start"><FaUsers /> 
+            <li className="flex items-center gap-2 md:text-lg text-sm justify-start"><FaUsers /> 
 Membership</li>
           </NavLink>
           

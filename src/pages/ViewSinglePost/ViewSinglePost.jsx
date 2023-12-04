@@ -28,15 +28,12 @@ import {
   WhatsappShareButton,
   EmailShareButton,
   EmailIcon,
- 
 } from "react-share";
 import axios from "axios";
 import { AuthContext } from "../../providers/AuthProvider";
 
-
 const ViewSinglePost = () => {
-  
-  const {user} = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
   // console.log(user);
   const userEmail = user?.email;
   // const userName = user.displayName;
@@ -68,9 +65,8 @@ const ViewSinglePost = () => {
   // Upvote
   const handleUpVote = (id) => {
     console.log(id);
-    axiosSecure.patch(`/updateUpVote/${id}`, { upVote: upVote})
-    .then((res) => {
-      console.log(typeof(parseInt(res.data)));
+    axiosSecure.patch(`/updateUpVote/${id}`, { upVote: upVote }).then((res) => {
+      console.log(typeof parseInt(res.data));
       // setUpVoteCount(parseInt(res.data));
       if (res.data.modifiedCount > 0) {
         setActualVote((prevVote) => prevVote + 1);
@@ -82,26 +78,26 @@ const ViewSinglePost = () => {
   // Downvote
   const handleDownVote = (id) => {
     console.log(id);
-    axiosSecure.patch(`/updateDownVote/${id}`, { downVote: downVote })
+    axiosSecure
+      .patch(`/updateDownVote/${id}`, { downVote: downVote })
       .then((res) => {
-        console.log(typeof(parseInt(res.data)));
+        console.log(typeof parseInt(res.data));
         // setDownVoteCount(parseInt(res.data));
         if (res.data.modifiedCount > 0) {
           setActualVote((prevVote) => prevVote - 1);
           Swal.fire("Great!", "Down Vote Submitted", "success");
         }
-      }); 
+      });
   };
 
   useEffect(() => {
     setActualVote(upVote - downVote);
   }, [upVote, downVote]);
- 
-  // Share Link 
+
+  // Share Link
   const shareUrl = `http://localhost:5000/posts/single/${_id}`;
 
-  const handleComment = async() => {
-
+  const handleComment = async () => {
     const { value: commentPost } = await Swal.fire({
       title: "Comment",
       html: `
@@ -116,40 +112,37 @@ const ViewSinglePost = () => {
       preConfirm: () => {
         const commentValue = document.getElementById("swal-input2").value;
         return commentValue;
-      }
+      },
     });
     // console.log(commentPost);
 
     const commentInfo = {
       commentPost,
       userEmail,
-      title
-    }
+      title,
+      postId: _id
+    };
     console.log(commentInfo);
     if (!commentInfo?.commentPost.length <= 0) {
       // Swal.fire(JSON.stringify(formValues));
       // console.log(markTheAssignment.pdfLink.length && markTheAssignment.quickNote.length );
-     axios.post('http://localhost:5000/submitComment', commentInfo)
-     .then(res => {
-      console.log(res.data);
-      console.log(res.data.insertedId);
-      if(res.data.insertedId) {
-        Swal.fire(
-          'Great!',
-          "Comment Submitted",
-          'success'
-        );
-        //  navigate('/myAssignment');
-      }
-     })
+      axios
+        .post("http://localhost:5000/submitComment", commentInfo)
+        .then((res) => {
+          console.log(res.data);
+          console.log(res.data.insertedId);
+          if (res.data.insertedId) {
+            Swal.fire("Great!", "Comment Submitted", "success");
+            //  navigate('/myAssignment');
+          }
+        });
     }
     /* return Swal.fire({
       icon: "error",
       title: "Oops...",
       text: "Leave something",
     }); */
-    
-  }
+  };
   return (
     <HelmetProvider>
       <div>
@@ -173,8 +166,6 @@ const ViewSinglePost = () => {
         </div>
 
         <div>
-        
-
           <div className="w-10/12 mx-auto py-10">
             {/* <SectionTitle heading={'All The Announcements'}></SectionTitle> */}
 
@@ -210,9 +201,8 @@ const ViewSinglePost = () => {
                     <div className="flex gap-4 pt-2 pb-4">
                       {/* Tags  */}
                       <div className="flex gap-4 font-semibold">
-                        {tags?.map((tag, i) => (
-                          <Tags key={i} tag={tag}></Tags>
-                        ))}
+                        
+                        #{tags}
                       </div>
                       {/* Time  */}
                       <div className="flex gap-4">
@@ -220,34 +210,52 @@ const ViewSinglePost = () => {
                       </div>
                     </div>
                     <div className="flex gap-4 items-center justify-start">
-                      <button onClick={handleComment} className="bg-cyan-500 hover:bg-cyan-700 font-semibold text-white px-4 py-2 rounded-full transition-all duration-500">
+                      <button
+                        onClick={handleComment}
+                        className="bg-cyan-500 hover:bg-cyan-700 font-semibold text-white px-4 py-2 rounded-full transition-all duration-500"
+                      >
                         Comment
                       </button>
-                     {/*  <button className="bg-cyan-500 hover:bg-cyan-700 font-semibold text-white px-8 py-2 rounded-full transition-all duration-500">
+                      {/*  <button className="bg-cyan-500 hover:bg-cyan-700 font-semibold text-white px-8 py-2 rounded-full transition-all duration-500">
                       
                         Share
                       </button> */}
-                     <div className="pt-2">
-                     <FacebookShareButton  url={shareUrl}
-                     quote= {'Share the post to your friend'}
-                     >
-                     <FacebookIcon className="text-cyan-500 hover:text-cyan-700 font-semibold transition-all duration-500" size={36} round={true} />
-</FacebookShareButton>
-                     </div>
-                     <div className="pt-2">
-                     <WhatsappShareButton  url={shareUrl}
-                     quote= {'Share the post to your friend'}
-                     >
-                     <WhatsappIcon className="text-cyan-500 hover:text-cyan-700 font-semibold transition-all duration-500" size={36} round={true} />
-</WhatsappShareButton>
-                     </div>
-                     <div className="pt-2">
-                     <EmailShareButton  url={shareUrl}
-                     quote= {'Share the post to your friend'}
-                     >
-                     <EmailIcon className="text-cyan-500 hover:text-cyan-700 font-semibold transition-all duration-500" size={36} round={true} />
-</EmailShareButton>
-                     </div>
+                      <div className="pt-2">
+                        <FacebookShareButton
+                          url={shareUrl}
+                          quote={"Share the post to your friend"}
+                        >
+                          <FacebookIcon
+                            className="text-cyan-500 hover:text-cyan-700 font-semibold transition-all duration-500"
+                            size={36}
+                            round={true}
+                          />
+                        </FacebookShareButton>
+                      </div>
+                      <div className="pt-2">
+                        <WhatsappShareButton
+                          url={shareUrl}
+                          quote={"Share the post to your friend"}
+                        >
+                          <WhatsappIcon
+                            className="text-cyan-500 hover:text-cyan-700 font-semibold transition-all duration-500"
+                            size={36}
+                            round={true}
+                          />
+                        </WhatsappShareButton>
+                      </div>
+                      <div className="pt-2">
+                        <EmailShareButton
+                          url={shareUrl}
+                          quote={"Share the post to your friend"}
+                        >
+                          <EmailIcon
+                            className="text-cyan-500 hover:text-cyan-700 font-semibold transition-all duration-500"
+                            size={36}
+                            round={true}
+                          />
+                        </EmailShareButton>
+                      </div>
                     </div>
                   </div>
                 </div>

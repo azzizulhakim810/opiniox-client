@@ -37,9 +37,12 @@ const ViewAllPosts = ({post}) => {
           
           <div className="flex items-center justify-left gap-5">
             <div className="block font-sans text-base antialiased font-medium leading-relaxed text-blue-gray-900">
-            <span className="font-semibold flex justify-left gap-2">{
-              tags?.map((tag, i) => <Tags key={i} tag={tag}></Tags>)
-            }</span>
+            <span className="font-semibold flex justify-left gap-2">
+              
+            <div className="flex ">
+      #{tags}
+    </div>
+            </span>
             </div>
             <p className="block font-sans text-base antialiased font-medium leading-relaxed text-blue-gray-900">
               <span className="font-normal">{commentsCount}</span> Comments

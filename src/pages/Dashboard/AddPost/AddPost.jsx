@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import Select from "react-select";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { AuthContext } from "../../../providers/AuthProvider";
+import Swal from "sweetalert2";
 
 const AddPost = () => {
   const {user} = useContext(AuthContext);
@@ -59,6 +60,22 @@ const AddPost = () => {
     };
 
     console.log(newPost);
+
+    axiosSecure.post('/posts', newPost)
+    .then(res => {
+      console.log(res.data);
+      if(res.data.insertedId) {
+        Swal.fire(
+          'Great!',
+          "Post Submitted Successfully",
+          'success'
+        );
+         form.reset();
+         navigate('/dashboard/myPosts')
+      }
+    }
+      
+      )
   };
 
   const tagsOptions = [
@@ -130,6 +147,7 @@ const AddPost = () => {
                       name="authorEmail"
                       placeholder="Author Email"
                       className="input input-bordered w-full"
+                      defaultValue={userEmail}
                       required
                     />
                   </label>

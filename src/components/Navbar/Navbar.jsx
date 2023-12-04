@@ -82,7 +82,7 @@ const Navbar = () => {
       </NavLink>
      { user &&
        <NavLink
-       to="dashboard"
+       to="/dashboard/myProfile"
        className={({ isActive, isPending }) =>
          isPending
            ? "pending"
