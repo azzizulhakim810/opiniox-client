@@ -1,8 +1,8 @@
 import { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
-
 import { AuthContext } from "../../providers/AuthProvider";
 import Swal from "sweetalert2"; 
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 
 const Register = () => {
@@ -10,6 +10,7 @@ const Register = () => {
   // const [errorMessage, setErrorMessage] = useState('');
   // const location = useLocation();
   const navigate = useNavigate();
+  const axiosSecure = useAxiosSecure();
 
   const handleSignUp = (e) => {
     e.preventDefault();
@@ -18,7 +19,15 @@ const Register = () => {
     const email = form.email.value;
     const photoURL = form.photoUrl.value;
     const password = form.password.value;
-    const user = {name, email, photoURL, password};
+    const user = {
+      name, 
+      email, 
+      photoURL,
+      badge : 'Bronze',
+      postCount: 0,
+      role: 'user'
+      
+    };
     console.log(user);
    
     // Password Validation 
@@ -54,7 +63,6 @@ const Register = () => {
      form.reset();
 
    
-
     // Create User 
     createUser(email, password)
     .then(res => {
@@ -77,8 +85,8 @@ const Register = () => {
         console.log(data)
       }) */
 
-      
-
+      axiosSecure.post('/addUser', user)
+      .then(res => console.log(res.data))
       // Update Profile 
       manageProfile(name, photoURL)
       .then()

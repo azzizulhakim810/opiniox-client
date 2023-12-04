@@ -90,7 +90,8 @@ export const router = createBrowserRouter([
     children: [
       {
         path: '/dashboard/myprofile',
-        element:<MyProfile></MyProfile>
+        element:<MyProfile></MyProfile>,
+        // loader: () => fetch('http://localhost:5000/user')
       },
       {
         path: '/dashboard/myposts',
