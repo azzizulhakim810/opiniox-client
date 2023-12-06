@@ -1,5 +1,4 @@
 import PropTypes from "prop-types";
-import Tags from "../../components/Tags/Tags";
 import { Link } from "react-router-dom";
 // import { useContext } from "react";
 // import { Link } from "react-router-dom";
@@ -66,8 +65,5 @@ const ViewAllPosts = ({post}) => {
   );
 };
 
-ViewAllPosts.propTypes = {
-  assignment: PropTypes.object,
-};
 
 export default ViewAllPosts;

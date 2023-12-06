@@ -1,14 +1,23 @@
 import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 // import logo from "../../../public/logo.png";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { IoMdNotifications } from "react-icons/io";
 import { AuthContext } from "../../providers/AuthProvider";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 // import { TooltipDefault } from "../Tooltip/TooltipDefault";
 
 const Navbar = () => {
   const { user, signout } = useContext(AuthContext);
+  const [announcementCount, setAnnouncementCount] = useState()
   const navigate = useNavigate();
   const location = useLocation();
+  const axiosSecure = useAxiosSecure();
+
+  useEffect(()=> {
+    axiosSecure.get('/announcementCount')
+  .then(res => setAnnouncementCount(res.data?.count))
+  }, [axiosSecure])
+// console.log(announcementCount);
 
   let prevScrollPos = window.scrollY;
 
@@ -95,34 +104,7 @@ const Navbar = () => {
      </NavLink>
      }
 
-      {/*       {(
-        <NavLink
-          to="/myAssignment"
-          className={({ isActive, isPending }) =>
-            isPending
-              ? "pending"
-              : isActive
-              ? "text-purple-400 capitalize py-1 px-2 mx-2 "
-              : " lg:text-white  py-1 px-2 mx-2"
-          }
-        >
-          My Assignment
-        </NavLink>
-      )}
-      {(
-        <NavLink
-          to="/submittedAssignment"
-          className={({ isActive, isPending }) =>
-            isPending
-              ? "pending"
-              : isActive
-              ? "text-purple-400 capitalize py-1 px-2 mx-2 "
-              : " lg:text-white  py-1 px-2 mx-2"
-          }
-        >
-          Submitted Assignment
-        </NavLink>
-      )} */}
+    
     </div>
   );
   // console.log(user);
@@ -205,18 +187,15 @@ const Navbar = () => {
             {user ? (
               <div className="flex justify-center items-center gap-6 ">
                 <div className="indicator">
-                  <span className="indicator-item badge ">1</span>
+                  <span className="indicator-item badge ">{
+                    announcementCount > 0 ? announcementCount : 0
+                  }</span>
                   <button className="flex">
                     <IoMdNotifications className="md:text-3xl text-cyan-500" />
                   </button>
                 </div>
 
-                {/* <button
-                  onClick={handleSignOut}
-                  className=" bg-cyan-500 hover:bg-white  text-white hover:text-cyan-500 rounded-3xl border-none md:text-sm text-xs px-6 py-3 font-bold"
-                >
-                  <span>Sign Out</span>
-                </button> */}
+                
               </div>
             ) : (
               <div className="flex justify-center items-center gap-6 ">
@@ -258,7 +237,9 @@ const Navbar = () => {
               {user ? (
                 <div className="flex justify-center items-center gap-6 ">
                   <div className="indicator ">
-                    <span className="indicator-item badge ">1</span>
+                    <span className="indicator-item badge ">{
+                      announcementCount > 0 ? announcementCount : 0
+                    }</span>
                     <button className="flex">
                       <IoMdNotifications className=" text-3xl text-cyan-500" />
                     </button>

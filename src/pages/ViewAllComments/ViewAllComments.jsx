@@ -1,14 +1,18 @@
 import PropTypes from 'prop-types';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Select from "react-select";
 import useAxiosSecure from '../../hooks/useAxiosSecure';
+import { AuthContext } from '../../providers/AuthProvider';
+import Swal from 'sweetalert2';
 
 const ViewAllComments = ({singleComment}) => {
+  const {user} = useContext(AuthContext);
+  const reporter = user.email;
   const [selectedFeedback, setSelectedFeedback] = useState(null);
-  const {commentPost, userEmail} = singleComment || {};
+  const {commentPost, userEmail, title} = singleComment || {};
   const [reportButtonDisabled, setReportButtonDisabled] = useState(true);
-
+const getFeedback = selectedFeedback?.value;
 const axiosSecure = useAxiosSecure();
   const tagsOptions = [
     { value: "Good", label: "Good" },
@@ -21,10 +25,31 @@ const axiosSecure = useAxiosSecure();
     setReportButtonDisabled(false);
   };
 
-  const handleReport = () => {
-    setReportButtonDisabled(true); 
+  const reportInfo = {
+    commentedUser: userEmail,
+    reporter,
+    commentText : commentPost,
+    postTitle: title,
+    feedback : getFeedback
 
-    // axiosSecure.post('/add')
+  }
+  const handleReport = () => {
+  
+
+    axiosSecure.post('/report', reportInfo)
+    .then(res => {
+      console.log(res.data)
+      if(res.data.insertedId) {
+        Swal.fire(
+          'Great!',
+          "Post Submitted Successfully",
+          'success'
+        )
+        setReportButtonDisabled(true); 
+        setSelectedFeedback('');
+      }
+    })
+    // console.log(reportInfo);
   };
 
 

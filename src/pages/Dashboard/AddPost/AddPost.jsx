@@ -55,7 +55,8 @@ const AddPost = () => {
       downVote,
       authorImage,
       tags,
-      time
+      time,
+      commentsCount: 0,
 
     };
 

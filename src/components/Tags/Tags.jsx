@@ -1,10 +1,10 @@
 
 
-const Tags = ({tag}) => {
+const Tags = ({singleTag}) => {
   return (
-    <div className="flex ">
-      #{tag}
-    </div>
+    <p className="text-base bg-cyan-500 text-white px-[8px] py-[2px] rounded-md font-semibold">
+              #{singleTag}
+            </p>
   );
 };
 

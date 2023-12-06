@@ -23,19 +23,8 @@ const MyPosts = () => {
     fetchRecentPosts()
   }, [userEmail, axiosSecure]);
 
-/*   useEffect(() => {
-
-    const fetchComment = async () => {
-      const res = await axiosSecure.get(`/allComments/${}`)
-      // console.log(res.data);
-      setAllComments(res.data);
-    };
-
-    fetchComment()
-  }, [ axiosSecure]); */
-
   const handleComment = (id) => {
-    console.log(id);
+    // console.log(id);
     axiosSecure.get(`/allComments/?id=${id}`)
     .then(res => setAllComments(res.data))
   }

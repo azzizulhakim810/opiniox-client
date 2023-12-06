@@ -7,40 +7,73 @@ import { IoSearchOutline } from "react-icons/io5";
 import AllPosts from "../AllPosts/AllPosts";
 import SectionTitle from "../../components/SectionTitle/SectionTitle";
 import { Helmet, HelmetProvider } from "react-helmet-async";
-import {  useLoaderData } from "react-router-dom";
+import {  Link, useLoaderData } from "react-router-dom";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
-import { useState } from "react";
-
+import { useEffect, useState } from "react";
+import Tags from "../../components/Tags/Tags";
+import { FaArrowLeftLong, FaArrowRightLong } from "react-icons/fa6";
 
 const Home = () => {
   const { count } = useLoaderData();
   const [searchText, setSearchText] = useState();
-  // console.log(count);
-  // const [allPosts, loading] = usePosts();
+  const [tag, setTag] = useState();
+  const [allPosts, setAllPosts] = useState([]);
+  const [currentPage, setCurrentPage] = useState(0);
+const [itemsPerPage, setItemsPerPage] = useState(5);
+const [newest, setNewest] = useState(true);
+const [allAnnouncements, setAllAnnouncements] = useState();
   const axiosSecure = useAxiosSecure();
+
+  useEffect(()=> {
+    axiosSecure.get('/allAnnouncements')
+  .then(res => setAllAnnouncements(res.data))
+  }, [axiosSecure])
+
+  useEffect(()=> {
+    axiosSecure.get('/allTags')
+  .then(res => setTag(res.data))
+  }, [axiosSecure])
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const res = await axiosSecure.get(`/posts?page=${currentPage}&size=${itemsPerPage}&sortSystem=${newest ? 'newest' : 'popular'}&searchText=${searchText}`)
+      setAllPosts(res.data);
+    };
+
+  fetchData();
+  }, [currentPage, itemsPerPage, newest, axiosSecure, searchText]);
 
   const handleSearch = (e) => {
     e.preventDefault();
     const form = e.target;
     setSearchText(form.search.value);
-/* 
-    axiosSecure.post('/posts?=')
-    .then(res => {
-      console.log(res.data);
-      if(res.data.insertedId) {
-        Swal.fire(
-          'Great!',
-          "Post Submitted Successfully",
-          'success'
-        );
-         form.reset();
-         navigate('/dashboard/myPosts')
-      }
-    }
-      
-      ) */
     
   };
+
+  const handleItemsPerPage = (e) => {
+    const val = parseInt(e.target.value)
+    setItemsPerPage(val);
+    setCurrentPage(0);
+  }
+
+
+  const numberOfPages = Math.ceil(count/itemsPerPage);
+
+
+  const pages = [...Array(numberOfPages).keys()] ;
+
+  
+
+    const handlePrevPage = () => {
+      if(currentPage > 0) {
+        setCurrentPage(currentPage - 1);
+      }
+    }
+    const handleNextPage = () => {
+      if(currentPage < pages.length - 1) {
+        setCurrentPage(currentPage +1);
+      }
+    }
 
 
 
@@ -133,32 +166,24 @@ const Home = () => {
           </div>
 
           <div className="col-span-2 bg-transparent border-l-[.5px] flex justify-center items-center gap-3">
-            <p className="text-base bg-cyan-500 text-white px-[8px] py-[2px] rounded-md font-semibold">
-              #coding
-            </p>
+            {
+              tag?.map(singleTag => <Tags 
+                key={singleTag._id} 
+                singleTag={singleTag.tag}
+                ></Tags>)
+            }
+            
 
-            <p className="text-base bg-cyan-500 text-white px-[8px] py-[2px] rounded-md font-semibold">
-              #travel
-            </p>
-            <p className="text-base bg-cyan-500 text-white px-[8px] py-[2px] rounded-md font-semibold">
-              #community
-            </p>
-            <p className="text-base bg-cyan-500 text-white px-[8px] py-[2px] rounded-md font-semibold">
-              #technology
-            </p>
-            <p className="text-base bg-cyan-500 text-white px-[8px] py-[2px] rounded-md font-semibold">
-              #books
-            </p>
-            <p className="text-base bg-cyan-500 text-white px-[8px] py-[2px] rounded-md font-semibold">
-              #food
-            </p>
+            
           </div>
         </div>
       </div>
 
       {/* Announcement Section  */}
 
-      <div
+      {
+        allAnnouncements?.length > 0 && 
+        <div
         className="hero"
         style={{
           backgroundImage: "url(https://i.ibb.co/HpK7K7k/bg-shap-one.png)",
@@ -170,42 +195,115 @@ const Home = () => {
         <div className="w-10/12 mx-auto py-10">
           <SectionTitle heading={"All The Announcements"}></SectionTitle>
 
-          <div className="relative grid grid-cols-3 w-10/12 mx-auto  justify-center items-center bg-white shadow-xl rounded-md p-6 ">
+          {
+            allAnnouncements?.map(announcement => 
+              <div key={announcement._id} className="relative grid grid-cols-3 w-10/12 mx-auto mt-2 justify-center items-center bg-white shadow-xl rounded-md p-2 ">
             <div className="col-span-1 flex justify-center items-center text-cyan-600">
-              <HiOutlineSpeakerphone className="text-8xl" />
+            <div className="col-span-2 flex items-center">
+          <img src={announcement.authorImage} className=" w-32 h-32 rounded-xl"/>
+        </div>
             </div>
 
             <div className="col-span-2 p-4">
               <h6 className="block mb-4 font-sans text-base antialiased font-semibold leading-relaxed tracking-normal text-cyan-500 uppercase">
-                startups
+                {announcement.author}
               </h6>
               <h4 className="block mb-2 font-sans text-2xl antialiased font-semibold leading-snug tracking-normal text-blue-gray-900">
-                Lyft launching cross-platform service
+              {announcement.title}
               </h4>
               <p className="block mb-8 font-sans text-base antialiased font-normal leading-relaxed text-gray-700">
-                Like so many organizations these days, Autodesk is a company in
-                transition. It was until recently a traditional boxed software
-                company selling licenses. Yet its own business model disruption
-                is only part of the story
+                {announcement.description}
               </p>
             </div>
           </div>
+            )
+          }
         </div>
       </div>
+      }
 
       {/* All Posts Section  */}
-      <div className="bg-gradient-to-l from-[#F6F5F9] to-[#FCFCFD]">
-        {/* <ViewAllPosts></ViewAllPosts> */}
+      <div
+      style={{
+        backgroundImage: "url(https://i.ibb.co/BzzxMwL/docbg-shap.png)",
+        backgroundPosition: "center",
+        backgroundSize: "contain",
+        backgroundRepeat: "no-repeat",
+      }}
+      className="bg-[#F6F6F7] rounded-t-6xl py-20">
+
+      <SectionTitle heading={"All The Posts"}></SectionTitle>
+     
+        
+       <div className="w-10/12 text-end pt-5">
+         {/* Popularity Sorting Button  */}
+         <button onClick={() => setNewest(!newest)} 
+      className="text-base font-bold col-span-1 bg-cyan-500 hover:bg-cyan-600 text-white py-2 px-3 rounded-md ">
+        { newest ? 'Sort By Popularity' : 'Sort By Date'}</button>
+       </div>
          
         <AllPosts
         searchText={searchText}
         count={count}
+        allPosts = {allPosts}
         ></AllPosts>
-        
 
-      
+        {/* Page Amount  */}
+        <div className="flex justify-center pb-3 font-bold">Current Page : {currentPage}</div>
+
+        {/* Pagination  */}
+        <div className="flex justify-center pb-10">
+        
+      <nav>
+  <ul className="flex">
+  <li>
+        <Link
+          className="mx-1 flex h-9 w-9 items-center justify-center rounded-full border border-blue-gray-100 bg-transparent p-0 text-sm text-blue-gray-500 transition duration-150 ease-in-out hover:bg-light-300"
+          
+          aria-label="Previous"
+        >
+          <button onClick={handlePrevPage} className="material-icons text-sm"><FaArrowLeftLong /></button>
+        </Link>
+      </li>
+    {
+      pages.map((i, page) => 
+      <li key={i}>
+        <button onClick={() => setCurrentPage(page)}
+          className={currentPage === page ? "mx-1 flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-tr from-purple-600 to-purple-400 p-4 text-sm text-white shadow-md shadow-purple-500/20 transition duration-150 ease-in-out" : 
+          "mx-1 flex h-9 w-9 items-center justify-center rounded-full"
+        }
+          
+        >
+          {page}
+        </button>
+      </li> 
+      )
+    }
+
+
+    <li>
+      <a
+        className="mx-1 flex h-9 w-9 items-center justify-center rounded-full border border-blue-gray-100 bg-transparent p-0 text-sm text-blue-gray-500 transition duration-150 ease-in-out hover:bg-light-300"
+        
+        aria-label="Next"
+      >
+        <button onClick={handleNextPage} className="material-icons text-sm"><FaArrowRightLong /></button>
+      </a>
+    </li> 
+
+    <select id="difficultyLevel" value={itemsPerPage} onChange={handleItemsPerPage}
+           className="input input-bordered  h-10">
+                    <option value="5">5</option>
+                    <option value="10">10</option>
+                  </select>
+  </ul>
+  
+</nav>
+      </div>
+
       </div>
     </div>
+    
     </HelmetProvider>
   );
 };

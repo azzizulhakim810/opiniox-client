@@ -1,10 +1,9 @@
 import { useLoaderData } from "react-router-dom";
-import ViewAllMyPosts from "../../ViewAllMyPosts/ViewAllMyPosts";
 import ViewAllComments from "../../ViewAllComments/ViewAllComments";
 
 const CommentPage = () => {
   const allComments = useLoaderData();
-  console.log(allComments);
+  // console.log(allComments);
   return (
     <div>
         <div className="w-10/12 mx-auto h-full">

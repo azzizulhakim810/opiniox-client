@@ -6,9 +6,7 @@ import { Link } from 'react-router-dom';
 const ViewAllMyPosts = ({singlePost, handleComment, handleDelete}) => {
   // const {user} = useContext(AuthContext);
   const {_id, authorImage, title, upVote, downVote } = singlePost || {};
-  // console.log(user.photoURL);
-  // console.log(singleSubmission);
-  // console.log(authorEmail);
+
 
 
 
@@ -26,9 +24,7 @@ const ViewAllMyPosts = ({singlePost, handleComment, handleDelete}) => {
                 <img src={authorImage} alt="Avatar Tailwind CSS Component" />
               </div>
             </div>
-            {/* <div>
-              <div className="font-bold">{userName}</div>
-            </div> */}
+            
           </div>
         </td>
         

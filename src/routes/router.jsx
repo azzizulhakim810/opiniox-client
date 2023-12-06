@@ -13,6 +13,9 @@ import AddPost from "../pages/Dashboard/AddPost/AddPost";
 import MyProfile from "../pages/Dashboard/MyProfile/MyProfile";
 import CommentPage from "../pages/Dashboard/CommentPage/CommentPage";
 import PrivateRoute from "./PrivateRoute/PrivateRoute";
+import ManageUsers from "../pages/Dashboard/ManageUsers/ManageUsers";
+import MakeAnnouncement from "../pages/Dashboard/MakeAnnouncement/MakeAnnouncement";
+import ReportedComments from "../pages/Dashboard/ReportedComments/ReportedComments";
 
 
 
@@ -31,10 +34,16 @@ export const router = createBrowserRouter([
         path:'/allPosts',
         element:<AllPosts></AllPosts>,
         loader: () => fetch('http://localhost:5000/postsCount')
+      }
+      , 
+      {
+        path:'/membership',
+        element:<AllPosts></AllPosts>,
+        loader: () => fetch('http://localhost:5000/postsCount')
       },
       {
         path:'/singlePost/:id',
-        element: <ViewSinglePost></ViewSinglePost>,
+        element: <PrivateRoute><ViewSinglePost></ViewSinglePost></PrivateRoute>,
         loader: ({params}) => fetch(`http://localhost:5000/posts/single/${params.id}`)
       },
        
@@ -69,7 +78,20 @@ export const router = createBrowserRouter([
         path: '/dashboard/comment/:id',
         element: <PrivateRoute><CommentPage></CommentPage></PrivateRoute> ,
         loader: ({params}) => fetch(`http://localhost:5000/allComments/${params.id}`)
-      }
+      },
+      {
+        path: '/dashboard/manageUsers',
+        element: <PrivateRoute><ManageUsers></ManageUsers></PrivateRoute>
+      },
+      
+      {
+        path: '/dashboard/makeAnnouncement',
+        element: <PrivateRoute><MakeAnnouncement></MakeAnnouncement></PrivateRoute>
+      },
+      {
+        path: '/dashboard/reportedComments',
+        element: <PrivateRoute><ReportedComments></ReportedComments></PrivateRoute>
+      },
       
     ]
   }

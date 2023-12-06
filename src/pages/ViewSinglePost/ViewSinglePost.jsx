@@ -34,7 +34,6 @@ import { AuthContext } from "../../providers/AuthProvider";
 
 const ViewSinglePost = () => {
   const { user } = useContext(AuthContext);
-  // console.log(user);
   const userEmail = user?.email;
   // const userName = user.displayName;
   // const userPhoto = user.photoURL;
@@ -51,8 +50,10 @@ const ViewSinglePost = () => {
     description,
     upVote,
     downVote,
+    commentsCount
   } = singlePost || {};
-  // console.log(singlePost);
+  // console.log(typeof commentsCount);
+  const [preComment, setPreComment] = useState(commentsCount);
 
   // const [upVoteCount, setUpVoteCount] = useState(upVote);
   // const [downVoteCount, setDownVoteCount] = useState(downVote);
@@ -97,7 +98,9 @@ const ViewSinglePost = () => {
   // Share Link
   const shareUrl = `http://localhost:5000/posts/single/${_id}`;
 
-  const handleComment = async () => {
+  const handleComment = async (id) => {
+
+    
     const { value: commentPost } = await Swal.fire({
       title: "Comment",
       html: `
@@ -122,20 +125,34 @@ const ViewSinglePost = () => {
       title,
       postId: _id
     };
-    console.log(commentInfo);
+    // console.log(commentInfo);
     if (!commentInfo?.commentPost.length <= 0) {
-      // Swal.fire(JSON.stringify(formValues));
-      // console.log(markTheAssignment.pdfLink.length && markTheAssignment.quickNote.length );
+      
       axios
         .post("http://localhost:5000/submitComment", commentInfo)
         .then((res) => {
-          console.log(res.data);
-          console.log(res.data.insertedId);
           if (res.data.insertedId) {
             Swal.fire("Great!", "Comment Submitted", "success");
             //  navigate('/myAssignment');
           }
         });
+
+        // Comment Count 
+        console.log('Comments',id);
+        axiosSecure
+          .patch(`/updateComment/${id}`, { commentsCount: commentsCount })
+          .then((res) => {
+            // console.log(typeof parseInt(res.data));
+            // setDownVoteCount(parseInt(res.data));
+            if (res.data.modifiedCount > 0) {
+              setPreComment(preComment + 1);
+              // console.log('Comment updated');
+            }
+          });
+
+        
+
+
     }
     /* return Swal.fire({
       icon: "error",
@@ -174,7 +191,7 @@ const ViewSinglePost = () => {
                 <div className="flex items-center gap-5">
                   <img src={authorImage} className=" w-14 h-14 rounded-full" />
                   <h6 className="font-sans text-base antialiased font-semibold leading-relaxed tracking-normal text-cyan-500 uppercase">
-                    {author}
+                    {author} 
                   </h6>
                 </div>
 
@@ -211,7 +228,7 @@ const ViewSinglePost = () => {
                     </div>
                     <div className="flex gap-4 items-center justify-start">
                       <button
-                        onClick={handleComment}
+                        onClick={() => handleComment(_id)}
                         className="bg-cyan-500 hover:bg-cyan-700 font-semibold text-white px-4 py-2 rounded-full transition-all duration-500"
                       >
                         Comment

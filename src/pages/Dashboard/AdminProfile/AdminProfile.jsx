@@ -5,7 +5,7 @@ import useAxiosSecure from '../../../hooks/useAxiosSecure';
 import { RiVerifiedBadgeFill } from "react-icons/ri";
 
 
-const MyProfile = () => {
+const AdminProfile = () => {
   const {user, loading} = useContext(AuthContext);
   const userEmail = user?.email;
   // const navigate = useNavigate();
@@ -83,7 +83,7 @@ const MyProfile = () => {
       {/* Recent Posts Section */}
       <div>
         
-        {!currentUser.badge === 'Gold' && recentPosts.map(post => (
+        {/* {recentPosts.map(post => (
           <div key={post._id} className="border p-4 mb-4 rounded-md ">
             <div className="flex flex-col justify-center gap-2 shadow-lg bg-white py-5 px-10 ">
                       <h4 className="font-sans text-2xl antialiased font-semibold leading-snug tracking-normal text-blue-gray-900 ">
@@ -94,10 +94,10 @@ const MyProfile = () => {
                       </p>
                     </div>
           </div>
-        ))}
+        ))} */}
       </div>
     </div>
   );
 };
 
-export default MyProfile;
+export default AdminProfile;
