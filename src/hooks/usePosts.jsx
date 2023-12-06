@@ -24,7 +24,7 @@ const usePosts = () => {
 /*   const [allPosts, setAllPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   useEffect(() => {
-    axios.get('http://localhost:5000/posts')
+    axios.get('https://opiniox-server.vercel.app/posts')
     .then(res => {
       setAllPosts(res.data);
       setLoading(false);

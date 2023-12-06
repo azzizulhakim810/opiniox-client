@@ -73,7 +73,7 @@ const Register = () => {
         'success'
       );
 
-      /* fetch('http://localhost:5000/user', {
+      /* fetch('https://opiniox-server.vercel.app/user', {
         method:'POST',
         headers: {
           'content-type': 'application/json'

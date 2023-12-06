@@ -28,23 +28,23 @@ export const router = createBrowserRouter([
       {
         path:'/',
         element: <Home></Home>,
-        loader: () => fetch('http://localhost:5000/postsCount')
+        loader: () => fetch('https://opiniox-server.vercel.app/postsCount')
       }, 
       {
         path:'/allPosts',
         element:<AllPosts></AllPosts>,
-        loader: () => fetch('http://localhost:5000/postsCount')
+        loader: () => fetch('https://opiniox-server.vercel.app/postsCount')
       }
       , 
       {
         path:'/membership',
         element:<AllPosts></AllPosts>,
-        loader: () => fetch('http://localhost:5000/postsCount')
+        loader: () => fetch('https://opiniox-server.vercel.app/postsCount')
       },
       {
         path:'/singlePost/:id',
         element: <PrivateRoute><ViewSinglePost></ViewSinglePost></PrivateRoute>,
-        loader: ({params}) => fetch(`http://localhost:5000/posts/single/${params.id}`)
+        loader: ({params}) => fetch(`https://opiniox-server.vercel.app/posts/single/${params.id}`)
       },
        
       {
@@ -77,7 +77,7 @@ export const router = createBrowserRouter([
       {
         path: '/dashboard/comment/:id',
         element: <PrivateRoute><CommentPage></CommentPage></PrivateRoute> ,
-        loader: ({params}) => fetch(`http://localhost:5000/allComments/${params.id}`)
+        loader: ({params}) => fetch(`https://opiniox-server.vercel.app/allComments/${params.id}`)
       },
       {
         path: '/dashboard/manageUsers',

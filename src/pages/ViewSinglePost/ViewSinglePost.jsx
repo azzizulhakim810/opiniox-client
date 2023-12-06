@@ -96,7 +96,7 @@ const ViewSinglePost = () => {
   }, [upVote, downVote]);
 
   // Share Link
-  const shareUrl = `http://localhost:5000/posts/single/${_id}`;
+  const shareUrl = `https://opiniox-server.vercel.app/posts/single/${_id}`;
 
   const handleComment = async (id) => {
 
@@ -129,7 +129,7 @@ const ViewSinglePost = () => {
     if (!commentInfo?.commentPost.length <= 0) {
       
       axios
-        .post("http://localhost:5000/submitComment", commentInfo)
+        .post("https://opiniox-server.vercel.app/submitComment", commentInfo)
         .then((res) => {
           if (res.data.insertedId) {
             Swal.fire("Great!", "Comment Submitted", "success");
