@@ -4,12 +4,14 @@ import { useContext } from "react";
 import { AuthContext } from "../../providers/AuthProvider";
 import Swal from "sweetalert2";
 import { useForm } from "react-hook-form";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 const Login = () => {
   const {googleLogin, signin} = useContext(AuthContext);
   const location = useLocation();
   const navigate = useNavigate();
   // console.log(location);
+  const axiosSecure = useAxiosSecure();
 
   // if(loading) {
   //   return <span className="loading loading-spinner text-error text-6xl mx-auto flex justify-center items-center py-5 "></span>
@@ -25,7 +27,15 @@ const Login = () => {
     // console.log(user);
     form.reset();
    
-   
+ /*    const user = {
+      name, 
+      email, 
+      photoURL,
+      badge : 'Bronze',
+      postCount: 0,
+      role: 'user'
+      
+    }; */
 
     signin(email, password)
     .then(res => { 
@@ -35,6 +45,8 @@ const Login = () => {
         "Successfully Logged In",
         'success'
       )
+      
+
       navigate(location?.state ? location?.state : '/');
     })
     .catch((error) => {
@@ -48,6 +60,8 @@ const Login = () => {
       });
     });
   }
+
+
     const handleGoogleSignin = () => {
     googleLogin()
     .then(res => {
@@ -57,6 +71,18 @@ const Login = () => {
         "Successfully Logged In",
         'success'
       )
+      const googleUser = {
+        name: res.user?.displayName,
+        email:res.user?.email,
+        photoURL: res.user?.photoURL,
+        badge: 'Bronze',
+        postCount: 0,
+        role: 'user'
+      }
+
+      axiosSecure.post('/addUser', googleUser)
+      .then(res => console.log(res.data))
+
       navigate(location?.state ? location.state : '/')
     })
     .catch((error) => {
