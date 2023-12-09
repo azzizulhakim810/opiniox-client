@@ -24,4 +24,4 @@
 
 # Technology
 
-[![My Skills](https://skillicons.dev/icons?i=vite,react,tailwind,nodejs,express)](https://skillicons.dev)![alt text](https://raw.githubusercontent.com/azzizulhakim810/opiniox-client/26275c03f3642987e788b5dc47e0a1424bb380fd/public/Frame.svg)
+[![My Skills](https://skillicons.dev/icons?i=vite,react,tailwind,nodejs,express)](https://skillicons.dev)![alt text](https://raw.githubusercontent.com/azzizulhakim810/opiniox-client/5b03320751c329a0bee44462a0d048f3adb84117/public/daisyui(50).svg)
