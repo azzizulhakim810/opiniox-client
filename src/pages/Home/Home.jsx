@@ -218,7 +218,7 @@ const Home = () => {
         {/* Marquee  */}
         <div className="py-10 bg-cyan-600">
         <Marquee speed={100}>
-  <span className="text-5xl font-extrabold text-white">Choose Tag | Ask Question | Upvote if you like | Downvote if you dislike | </span>
+  <span className="text-5xl font-extrabold text-white">Choose Tag | Search By Tag | Ask Question | Upvote if you like | Downvote if you dislike | </span>
 </Marquee>
           </div>
 
