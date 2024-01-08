@@ -14,6 +14,8 @@ import { useEffect, useState } from "react";
 import Tags from "../../components/Tags/Tags";
 import { FaArrowLeftLong, FaArrowRightLong } from "react-icons/fa6";
 import Marquee from "react-fast-marquee";
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 
 const Home = () => {
   const { count } = useLoaderData();
@@ -25,6 +27,10 @@ const Home = () => {
   const [newest, setNewest] = useState(true);
   const [allAnnouncements, setAllAnnouncements] = useState();
   const axiosSecure = useAxiosSecure();
+
+  useEffect(() => {
+    AOS.init();
+  },[])
 
   useEffect(() => {
     axiosSecure
@@ -152,7 +158,7 @@ const Home = () => {
         </div>
 
         {/* Tag Section */}
-        <div className="py-10">
+        <div className="py-10" data-aos="fade-up">
           <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 w-8/12 mx-auto bg-white -mt-24 py-8 shadow-md rounded-md">
             <div className="col-span-1 bg-transparent border-r-[.5px] flex justify-center items-center">
               <ImPriceTags className="text-2xl text-cyan-500" />

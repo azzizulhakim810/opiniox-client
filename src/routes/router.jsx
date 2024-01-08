@@ -16,6 +16,7 @@ import PrivateRoute from "./PrivateRoute/PrivateRoute";
 import ManageUsers from "../pages/Dashboard/ManageUsers/ManageUsers";
 import MakeAnnouncement from "../pages/Dashboard/MakeAnnouncement/MakeAnnouncement";
 import ReportedComments from "../pages/Dashboard/ReportedComments/ReportedComments";
+import Membership from "../pages/Membership/Membership";
 
 
 
@@ -38,7 +39,7 @@ export const router = createBrowserRouter([
       , 
       {
         path:'/membership',
-        element:<AllPosts></AllPosts>,
+        element:<Membership></Membership>,
         loader: () => fetch('https://opiniox-server.vercel.app/postsCount')
       },
       {

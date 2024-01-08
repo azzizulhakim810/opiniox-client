@@ -174,7 +174,7 @@ const Navbar = () => {
             </div>
             <ul className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-40 -ml-16 divide-y-[1px] divide-gray-200">
               <li className="px-4 py-2">{user?.displayName}</li>
-              <li><Link to="/">Dashboard</Link ></li>
+              <li><Link to="/dashboard/myProfile">Dashboard</Link ></li>
               <li><button onClick={handleSignOut}>Signout</button></li>
             </ul>
           </div>

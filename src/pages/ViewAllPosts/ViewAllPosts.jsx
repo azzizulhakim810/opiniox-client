@@ -1,19 +1,23 @@
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
-// import { useContext } from "react";
-// import { Link } from "react-router-dom";
-// import { AuthContext } from "../../providers/AuthProvider";
+import AOS from 'aos';
+import 'aos/dist/aos.css';
+import { useEffect } from "react";
 
 const ViewAllPosts = ({post}) => {
   // const {user} = useContext(AuthContext);
   // const currentUserEmail = user?.email;
 
   const {_id, authorImage, commentsCount, tags, time, title, upVote, downVote } = post || {};
-  // console.log(currentUserEmail, userEmail);
-  // console.log(post);
+  
+  useEffect(() => {
+    AOS.init();
+  },[])
+
   return (
     
-    <div
+    <div data-aos="flip-down" data-aos-easing="ease-out-cubic"
+    data-aos-duration="600" 
     style={{
       backgroundImage: "url(https://i.ibb.co/HpK7K7k/bg-shap-one.png)",
       backgroundPosition: "top",
