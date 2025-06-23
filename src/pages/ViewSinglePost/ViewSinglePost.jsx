@@ -7,29 +7,26 @@
 // import SectionTitle from "../../components/SectionTitle/SectionTitle";
 // import { HiOutlineSpeakerphone } from "react-icons/hi";
 import { Helmet } from "react-helmet";
+import { HelmetProvider } from "react-helmet-async";
 import {
   IoIosArrowDropdownCircle,
   IoIosArrowDropupCircle,
 } from "react-icons/io";
 import { useLoaderData } from "react-router-dom";
-import Tags from "../../components/Tags/Tags";
-import { HelmetProvider } from "react-helmet-async";
 
-import useAxiosSecure from "../../hooks/useAxiosSecure";
+import { useContext, useEffect, useState } from "react";
 import Swal from "sweetalert2";
-import { useState } from "react";
-import { useContext } from "react";
-import { useEffect } from "react";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 
+import axios from "axios";
 import {
+  EmailIcon,
+  EmailShareButton,
   FacebookIcon,
   FacebookShareButton,
   WhatsappIcon,
   WhatsappShareButton,
-  EmailShareButton,
-  EmailIcon,
 } from "react-share";
-import axios from "axios";
 import { AuthContext } from "../../providers/AuthProvider";
 
 const ViewSinglePost = () => {
@@ -50,7 +47,7 @@ const ViewSinglePost = () => {
     description,
     upVote,
     downVote,
-    commentsCount
+    commentsCount,
   } = singlePost || {};
   // console.log(typeof commentsCount);
   const [preComment, setPreComment] = useState(commentsCount);
@@ -99,8 +96,6 @@ const ViewSinglePost = () => {
   const shareUrl = `https://opiniox-server.vercel.app/posts/single/${_id}`;
 
   const handleComment = async (id) => {
-
-    
     const { value: commentPost } = await Swal.fire({
       title: "Comment",
       html: `
@@ -123,11 +118,10 @@ const ViewSinglePost = () => {
       commentPost,
       userEmail,
       title,
-      postId: _id
+      postId: _id,
     };
     // console.log(commentInfo);
     if (!commentInfo?.commentPost.length <= 0) {
-      
       axios
         .post("https://opiniox-server.vercel.app/submitComment", commentInfo)
         .then((res) => {
@@ -137,22 +131,18 @@ const ViewSinglePost = () => {
           }
         });
 
-        // Comment Count 
-        console.log('Comments',id);
-        axiosSecure
-          .patch(`/updateComment/${id}`, { commentsCount: commentsCount })
-          .then((res) => {
-            // console.log(typeof parseInt(res.data));
-            // setDownVoteCount(parseInt(res.data));
-            if (res.data.modifiedCount > 0) {
-              setPreComment(preComment + 1);
-              // console.log('Comment updated');
-            }
-          });
-
-        
-
-
+      // Comment Count
+      console.log("Comments", id);
+      axiosSecure
+        .patch(`/updateComment/${id}`, { commentsCount: commentsCount })
+        .then((res) => {
+          // console.log(typeof parseInt(res.data));
+          // setDownVoteCount(parseInt(res.data));
+          if (res.data.modifiedCount > 0) {
+            setPreComment(preComment + 1);
+            // console.log('Comment updated');
+          }
+        });
     }
     /* return Swal.fire({
       icon: "error",
@@ -191,7 +181,7 @@ const ViewSinglePost = () => {
                 <div className="flex items-center gap-5">
                   <img src={authorImage} className=" w-14 h-14 rounded-full" />
                   <h6 className="font-sans text-base antialiased font-semibold leading-relaxed tracking-normal text-cyan-500 uppercase">
-                    {author} 
+                    {author}
                   </h6>
                 </div>
 
@@ -217,10 +207,7 @@ const ViewSinglePost = () => {
                     </div>
                     <div className="flex gap-4 pt-2 pb-4">
                       {/* Tags  */}
-                      <div className="flex gap-4 font-semibold">
-                        
-                        #{tags}
-                      </div>
+                      <div className="flex gap-4 font-semibold">#{tags}</div>
                       {/* Time  */}
                       <div className="flex gap-4">
                         <p>{time}</p>

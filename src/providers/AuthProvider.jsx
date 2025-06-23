@@ -1,49 +1,57 @@
-import PropTypes from 'prop-types';
-import {  GoogleAuthProvider, createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut, updateProfile } from "firebase/auth";
-import auth from '../firebase/firebase.config';
-import { createContext, useEffect, useState } from 'react';
+import PropTypes from "prop-types";
+import {
+  GoogleAuthProvider,
+  createUserWithEmailAndPassword,
+  onAuthStateChanged,
+  signInWithEmailAndPassword,
+  signInWithPopup,
+  signOut,
+  updateProfile,
+} from "firebase/auth";
+import auth from "../firebase/firebase.config";
+import { createContext, useEffect, useState } from "react";
 // import axios from 'axios';
 
 export const AuthContext = createContext(null);
-const AuthProvider = ({children}) => {
+
+const AuthProvider = ({ children }) => {
   const [user, setUser] = useState();
   const [loading, setLoading] = useState(true);
 
-  
   const googleProvider = new GoogleAuthProvider();
-  
-  // Login email password 
+
+  // Login email password
   const createUser = (email, password) => {
     setLoading(true);
-    return createUserWithEmailAndPassword (auth, email, password);
-  }
+    return createUserWithEmailAndPassword(auth, email, password);
+  };
 
-  // Google login 
+  // Google login
   const googleLogin = () => {
     setLoading(true);
-    return signInWithPopup (auth, googleProvider);
-  }
+    return signInWithPopup(auth, googleProvider);
+  };
 
-  // User login 
+  // User login
   const signin = (email, password) => {
     setLoading(true);
-  return signInWithEmailAndPassword(auth, email, password);
-  }
+    return signInWithEmailAndPassword(auth, email, password);
+  };
 
-  // User logout 
+  // User logout
   const signout = () => {
     setLoading(true);
     return signOut(auth);
-  }
+  };
 
-  // Update User 
+  // Update User
   const manageProfile = (name, photoURL) => {
     setLoading(true);
     return updateProfile(auth.currentUser, {
       displayName: name,
       photoURL: photoURL,
     });
-  }
+  };
 
   useEffect(() => {
     const unSubscribe = onAuthStateChanged(auth, (currentUser) => {
@@ -52,7 +60,7 @@ const AuthProvider = ({children}) => {
       setUser(currentUser);
       setLoading(false);
       // console.log(currentUser);
- /*      if(currentUser) {
+      /*      if(currentUser) {
         axios.post('https://elearn-platform-server.vercel.app/jwt', loggedUser, {withCredentials:true})
         .then(res =>{
           console.log("Token response", res.data);
@@ -65,11 +73,11 @@ const AuthProvider = ({children}) => {
           console.log(res.data);
         })
       } */
-    })
+    });
     return () => {
       unSubscribe();
-    }
-  }, [user?.email])
+    };
+  }, [user?.email]);
 
   const authInfo = {
     user,
@@ -79,17 +87,15 @@ const AuthProvider = ({children}) => {
     signin,
     signout,
     manageProfile,
-  }
+  };
   return (
     <div>
-      <AuthContext.Provider value={authInfo}>
-        {children}
-      </AuthContext.Provider>
+      <AuthContext.Provider value={authInfo}>{children}</AuthContext.Provider>
     </div>
   );
 };
 
 AuthProvider.propTypes = {
   children: PropTypes.node,
-}
+};
 export default AuthProvider;

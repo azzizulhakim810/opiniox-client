@@ -4,24 +4,18 @@ import useAxiosSecure from "./useAxiosSecure";
 // import { useEffect, useState } from "react";
 
 const usePosts = () => {
-
   const axiosSecure = useAxiosSecure();
-  const {data : posts = []} = useQuery({
-    queryKey: ['posts'],
-    queryFn: async() => {
+  const { data: posts = [] } = useQuery({
+    queryKey: ["posts"],
+    queryFn: async () => {
       // const res = await axiosSecure.get('/posts');
       // return res.data;
+    },
+  });
 
+  return [posts];
 
-      
-    }
-  })
-
-  return [posts]
-
-
-
-/*   const [allPosts, setAllPosts] = useState([]);
+  /*   const [allPosts, setAllPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     axios.get('https://opiniox-server.vercel.app/posts')
@@ -32,6 +26,6 @@ const usePosts = () => {
     }),
    [];
   return [allPosts, loading]; */
-}
+};
 
 export default usePosts;
